@@ -4,17 +4,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { NbThemeModule } from '../../theme.module';
 import { NbLayoutModule } from '../layout/layout.module';
-import {
-  NbAdjustment,
-  NbDynamicOverlayHandler,
-  NbOverlayContent,
-  NbPosition,
-  NbRenderableContainer,
-  NbTrigger,
-} from '../cdk';
+import { NbAdjustment, NbPosition } from '../cdk/overlay/overlay-position';
+import { NbDynamicOverlayHandler } from '../cdk/overlay/dynamic/dynamic-overlay-handler';
+import { NbOverlayContent } from '../cdk/overlay/overlay-service';
+import { NbRenderableContainer } from '../cdk/overlay/overlay-container';
+import { NbTrigger } from '../cdk/overlay/overlay-trigger';
 import { NbPopoverDirective } from './popover.directive';
 import { NbPopoverComponent } from './popover.component';
 import { NbPopoverModule } from './popover.module';
+import createSpy = jasmine.createSpy;
+import { Subject } from 'rxjs';
+import { NbOverlayConfig } from '@nebular/theme/components/cdk/overlay/mapping';
 
 @Component({
   selector: 'nb-popover-component-content-test',
@@ -29,14 +29,16 @@ export class NbPopoverComponentContentTestComponent {
   template: `
     <nb-layout>
       <nb-layout-column>
-        <button #button nbPopover="test">show popover</button>
+        <button #button nbPopover="test" [nbPopoverClass]="popoverClass">show popover</button>
       </nb-layout-column>
     </nb-layout>
   `,
 })
 export class NbPopoverDefaultTestComponent {
-  @ViewChild('button') button: ElementRef;
-  @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
+  @ViewChild('button', { static: false }) button: ElementRef;
+  @ViewChild(NbPopoverDirective, { static: false }) popover: NbPopoverDirective;
+
+  popoverClass = '';
 }
 
 @Component({
@@ -57,9 +59,9 @@ export class NbPopoverDefaultTestComponent {
   `,
 })
 export class NbPopoverBindingsTestComponent {
-  @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
-  @ViewChild('button') button: ElementRef;
-  @ViewChild(TemplateRef) template: TemplateRef<any>;
+  @ViewChild(NbPopoverDirective, { static: false }) popover: NbPopoverDirective;
+  @ViewChild('button', { static: false }) button: ElementRef;
+  @ViewChild(TemplateRef, { static: false }) template: TemplateRef<any>;
   @Input() content: any = '';
   @Input() context: any = { text: 'hello world' };
   @Input() trigger = NbTrigger.CLICK;
@@ -80,16 +82,18 @@ export class NbPopoverBindingsTestComponent {
   `,
 })
 export class NbPopoverInstanceTestComponent {
-  @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
-  @ViewChild('button') button: ElementRef;
-  @ViewChild(TemplateRef) template: TemplateRef<any>;
+  @ViewChild(NbPopoverDirective, { static: false }) popover: NbPopoverDirective;
+  @ViewChild('button', { static: false }) button: ElementRef;
+  @ViewChild(TemplateRef, { static: false }) template: TemplateRef<any>;
 }
 
+const dynamicOverlayIsShow$ = new Subject();
 const dynamicOverlay = {
   show() {},
   hide() {},
   toggle() {},
   destroy() {},
+  isShown: dynamicOverlayIsShow$,
 };
 
 export class NbDynamicOverlayHandlerMock {
@@ -100,6 +104,8 @@ export class NbDynamicOverlayHandlerMock {
   _trigger: NbTrigger = NbTrigger.NOOP;
   _position: NbPosition = NbPosition.TOP;
   _adjustment: NbAdjustment = NbAdjustment.NOOP;
+  _offset = 15;
+  _overlayConfig: NbOverlayConfig = {};
 
   constructor() {
   }
@@ -116,6 +122,11 @@ export class NbDynamicOverlayHandlerMock {
 
   position(position: NbPosition) {
     this._position = position;
+    return this;
+  }
+
+  offset(offset: number) {
+    this._offset = offset;
     return this;
   }
 
@@ -136,6 +147,11 @@ export class NbDynamicOverlayHandlerMock {
 
   context(context: {}) {
     this._context = context;
+    return this;
+  }
+
+  overlayConfig(overlayConfig: NbOverlayConfig) {
+    this._overlayConfig = overlayConfig;
     return this;
   }
 
@@ -249,6 +265,56 @@ describe('Directive: NbPopoverDirective', () => {
       expect(templatePopover.textContent).toContain('hello world');
     });
 
+    it('should emit show state change event when shows up', () => {
+      fixture = TestBed.createComponent(NbPopoverDefaultTestComponent);
+      fixture.detectChanges();
+      const popover: NbPopoverDirective = fixture.componentInstance.popover;
+
+      const stateChangeSpy = createSpy('stateChangeSpy');
+      popover.nbPopoverShowStateChange.subscribe(stateChangeSpy);
+
+      popover.show();
+      fixture.detectChanges();
+
+      expect(stateChangeSpy).toHaveBeenCalledTimes(1);
+      expect(stateChangeSpy).toHaveBeenCalledWith(jasmine.objectContaining({ isShown: true }));
+    });
+
+    it('should emit show state change event when hides', () => {
+      fixture = TestBed.createComponent(NbPopoverDefaultTestComponent);
+      fixture.detectChanges();
+      const popover: NbPopoverDirective = fixture.componentInstance.popover;
+      popover.show();
+      fixture.detectChanges();
+
+      const stateChangeSpy = createSpy('stateChangeSpy');
+      popover.nbPopoverShowStateChange.subscribe(stateChangeSpy);
+
+      popover.hide();
+      fixture.detectChanges();
+
+      expect(stateChangeSpy).toHaveBeenCalledTimes(1);
+      expect(stateChangeSpy).toHaveBeenCalledWith(jasmine.objectContaining({ isShown: false }));
+    });
+
+    it('should set isShown to false when hidden', () => {
+      fixture = TestBed.createComponent(NbPopoverDefaultTestComponent);
+      fixture.detectChanges();
+      const popover: NbPopoverDirective = fixture.componentInstance.popover;
+
+      expect(popover.isShown).toEqual(false);
+    });
+
+    it('should set isShown to true when shown', () => {
+      fixture = TestBed.createComponent(NbPopoverDefaultTestComponent);
+      fixture.detectChanges();
+      const popover: NbPopoverDirective = fixture.componentInstance.popover;
+      popover.show();
+      fixture.detectChanges();
+
+      expect(popover.isShown).toEqual(true);
+    });
+
   });
 
   describe('mocked services', () => {
@@ -338,6 +404,17 @@ describe('Directive: NbPopoverDirective', () => {
         expect(showSpy).toHaveBeenCalledTimes(1);
         expect(hideSpy).toHaveBeenCalledTimes(1);
         expect(toggleSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('should set overlay config', () => {
+        const popoverClass = 'custom-popover-class';
+        const overlayConfigSpy = spyOn(overlayHandler, 'overlayConfig').and.callThrough();
+
+        fixture = TestBed.createComponent(NbPopoverDefaultTestComponent);
+        fixture.componentInstance.popoverClass = popoverClass;
+        fixture.detectChanges();
+
+        expect(overlayConfigSpy).toHaveBeenCalledWith(jasmine.objectContaining({ panelClass: popoverClass }));
       });
     });
 

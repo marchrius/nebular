@@ -25,10 +25,7 @@
               "src/assets",
               "src/favicon.ico"
             ],
-            "styles": [
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
-              "src/styles.scss"
-            ],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
@@ -76,10 +73,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
-              "src/styles.scss"
-            ],
+            "styles": [],
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -146,10 +140,7 @@
               "src/assets",
               "src/favicon.ico"
             ],
-            "styles": [
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
-              "src/styles.scss"
-            ],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
@@ -197,10 +188,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
-              "src/styles.scss"
-            ],
+            "styles": [],
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -255,21 +243,24 @@
             "main": "docs/main.ts",
             "tsConfig": "docs/tsconfig.app.json",
             "polyfills": "docs/polyfills.ts",
+            "rebaseRootRelativeCssUrls": true,
             "assets": [
               "docs/assets",
               "docs/404.html",
               "docs/favicon.ico",
               "docs/favicon.png",
-              "docs/google46533d2e7a851062.html"
+              "docs/google46533d2e7a851062.html",
+              { "glob": "versions.json", "input": "docs/", "output": "/" }
             ],
             "styles": [
+              "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/docsearch.js/dist/cdn/docsearch.min.css",
               "node_modules/highlight.js/styles/dracula.css",
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
               "docs/app/@theme/styles/styles.scss"
             ],
             "scripts": [
+              "node_modules/pace-js/pace.min.js",
               "node_modules/docsearch.js/dist/cdn/docsearch.min.js"
             ]
           },
@@ -321,7 +312,6 @@
             ],
             "styles": [
               "node_modules/highlight.js/styles/dracula.css",
-              "node_modules/nebular-icons/scss/nebular-icons.scss",
               "docs/app/@theme/styles/styles.scss"
             ],
             "assets": [

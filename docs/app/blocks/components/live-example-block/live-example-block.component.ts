@@ -25,7 +25,7 @@ import { NgdExampleView } from '../../enum.example-view';
 })
 export class NgdLiveExampleBlockComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('iframe') iframe: ElementRef;
+  @ViewChild('iframe', { static: false }) iframe: ElementRef;
   @Input() content: any;
   @Input() hasViewSwitch: boolean = false;
   @Output() changeView = new EventEmitter<NgdExampleView>();
@@ -45,11 +45,17 @@ export class NgdLiveExampleBlockComponent implements OnInit, AfterViewInit, OnDe
     return this.currentTheme === 'corporate';
   }
 
+  @HostBinding('class.theme-dark')
+  private get isDark() {
+    return this.currentTheme === 'dark';
+  }
+
   iframeHeight = 0;
   alive: boolean = true;
 
   themes: {label: string; value: string}[] = [
     { label: 'Default', value: 'default' },
+    { label: 'Dark', value: 'dark' },
     { label: 'Cosmic', value: 'cosmic' },
     { label: 'Corporate', value: 'corporate' },
   ];

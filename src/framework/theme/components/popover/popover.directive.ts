@@ -10,19 +10,20 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  OnDestroy, OnInit,
+  OnDestroy,
+  OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 
-import {
-  NbAdjustment,
-  NbOverlayContent,
-  NbPosition,
-  NbTrigger,
-  NbDynamicOverlayHandler,
-  NbDynamicOverlay,
-  NbDynamicOverlayController,
-} from '../cdk';
+import { NbDynamicOverlay, NbDynamicOverlayController } from '../cdk/overlay/dynamic/dynamic-overlay';
+import { NbDynamicOverlayHandler } from '../cdk/overlay/dynamic/dynamic-overlay-handler';
+import { NbAdjustment, NbPosition } from '../cdk/overlay/overlay-position';
+import { NbOverlayContent } from '../cdk/overlay/overlay-service';
+import { NbTrigger } from '../cdk/overlay/overlay-trigger';
 import { NbPopoverComponent } from './popover.component';
+import { takeUntil, skip } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 /**
@@ -45,7 +46,7 @@ import { NbPopoverComponent } from './popover.component';
  * ```ts
  * @NgModule({
  *   imports: [
- *   	// ...
+ *     // ...
  *     NbPopoverModule,
  *   ],
  * })
@@ -75,10 +76,10 @@ import { NbPopoverComponent } from './popover.component';
  *
  * By default popover will try to adjust itself to maximally fit viewport
  * and provide the best user experience. It will try to change position of the popover container.
- * If you wanna disable this behaviour just set it falsy value.
+ * If you want to disable this behaviour set it `noop`.
  *
  * ```html
- * <button nbPopover="Hello, Popover!" [nbPopoverAdjustment]="false"></button>
+ * <button nbPopover="Hello, Popover!" nbPopoverAdjustment="noop"></button>
  * ```
  *
  * Popover has a number of triggers which provides an ability to show and hide the component in different ways:
@@ -111,9 +112,14 @@ import { NbPopoverComponent } from './popover.component';
  * */
 @Directive({
   selector: '[nbPopover]',
+  exportAs: 'nbPopover',
   providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
 })
 export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges, AfterViewInit, OnDestroy, OnInit {
+
+  protected popoverComponent = NbPopoverComponent;
+  protected dynamicOverlay: NbDynamicOverlay;
+  protected destroy$ = new Subject<void>();
 
   /**
    * Popover content which will be rendered in NbArrowedOverlayContainerComponent.
@@ -137,26 +143,23 @@ export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges
 
   /**
    * Container position will be changes automatically based on this strategy if container can't fit view port.
-   * Set this property to any falsy value if you want to disable automatically adjustment.
-   * Available values: clockwise, counterclockwise.
+   * Set this property to `noop` value if you want to disable automatically adjustment.
+   * Available values: `clockwise` (default), `counterclockwise`, `vertical`, `horizontal`, `noop`.
    * */
   @Input('nbPopoverAdjustment')
-  adjustment: NbAdjustment = NbAdjustment.CLOCKWISE;
-
-  /**
-   * Deprecated, use `trigger`
-   * @deprecated
-   * @breaking-change 4.0.0
-   * */
-  @Input('nbPopoverMode')
-  set mode(mode) {
-    console.warn(`Popover 'nbPopoverMode' input is deprecated and will be removed as of 4.0.0.
-      Use 'nbPopoverTrigger' instead.`);
-    this.trigger = mode;
+  get adjustment(): NbAdjustment {
+    return this._adjustment;
   }
-  get mode() {
-    return this.trigger;
+  set adjustment(value: NbAdjustment) {
+    if (!value) {
+      // @breaking-change Remove @5.0.0
+      console.warn(`Falsy values for 'nbPopoverAdjustment' are deprecated and will be removed in Nebular 5.
+ Use 'noop' instead.`);
+      value = NbAdjustment.NOOP;
+    }
+    this._adjustment = value;
   }
+  protected _adjustment: NbAdjustment = NbAdjustment.CLOCKWISE;
 
   /**
    * Describes when the container will be shown.
@@ -165,16 +168,30 @@ export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges
   @Input('nbPopoverTrigger')
   trigger: NbTrigger = NbTrigger.CLICK;
 
-  private dynamicOverlay: NbDynamicOverlay;
+  /**
+   * Sets popover offset
+   * */
+  @Input('nbPopoverOffset')
+  offset = 15;
 
-  constructor(private hostRef: ElementRef,
-              private dynamicOverlayHandler: NbDynamicOverlayHandler) {
+  @Input('nbPopoverClass')
+  popoverClass: string = '';
+
+  @Output()
+  nbPopoverShowStateChange = new EventEmitter<{ isShown: boolean }>();
+
+  get isShown(): boolean {
+    return !!(this.dynamicOverlay && this.dynamicOverlay.isAttached);
+  }
+
+  constructor(protected hostRef: ElementRef,
+              protected dynamicOverlayHandler: NbDynamicOverlayHandler) {
   }
 
   ngOnInit() {
     this.dynamicOverlayHandler
       .host(this.hostRef)
-      .componentType(NbPopoverComponent);
+      .componentType(this.popoverComponent);
   }
 
   ngOnChanges() {
@@ -184,6 +201,13 @@ export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges
   ngAfterViewInit() {
     this.dynamicOverlay = this.configureDynamicOverlay()
       .build();
+
+    this.dynamicOverlay.isShown
+      .pipe(
+        skip(1),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isShown: boolean) => this.nbPopoverShowStateChange.emit({ isShown }));
   }
 
   rebuild() {
@@ -205,14 +229,18 @@ export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges
 
   ngOnDestroy() {
     this.dynamicOverlayHandler.destroy();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   protected configureDynamicOverlay() {
     return this.dynamicOverlayHandler
       .position(this.position)
       .trigger(this.trigger)
+      .offset(this.offset)
       .adjustment(this.adjustment)
       .content(this.content)
-      .context(this.context);
+      .context(this.context)
+      .overlayConfig({ panelClass: this.popoverClass });
   }
 }

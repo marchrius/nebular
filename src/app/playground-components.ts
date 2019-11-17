@@ -174,6 +174,18 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         component: 'ButtonTypesComponent',
         name: 'Button Types',
       },
+      {
+        path: 'button-icon.component',
+        link: '/button/button-icon.component',
+        component: 'ButtonIconComponent',
+        name: 'Button Icon',
+      },
+      {
+        path: 'button-interactive.component',
+        link: '/button/button-interactive.component',
+        component: 'ButtonInteractiveComponent',
+        name: 'Button Interactive',
+      },
     ],
   },
   {
@@ -233,6 +245,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         component: 'CalendarWithoutHeaderComponent',
         name: 'Calendar Without Header',
       },
+      {
+        path: 'calendar-week-number.component',
+        link: '/calendar/calendar-week-number.component',
+        component: 'CalendarWeekNumberComponent',
+        name: 'Calendar Week Number',
+      },
     ],
   },
   {
@@ -290,6 +308,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/card/card-without-body.component',
         component: 'CardWithoutBodyComponent',
         name: 'Card Without Body',
+      },
+      {
+        path: 'card-sizes-combinations.component',
+        link: '/card/card-sizes-combinations.component',
+        component: 'CardSizesCombinationsComponent',
+        name: 'Card Sizes Combinations',
       },
     ],
   },
@@ -366,6 +390,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/checkbox/checkbox-test.component',
         component: 'CheckboxTestComponent',
         name: 'Checkbox Test',
+      },
+      {
+        path: 'checkbox-indeterminate.component',
+        link: '/checkbox/checkbox-indeterminate.component',
+        component: 'CheckboxIndeterminateComponent',
+        name: 'Checkbox Indeterminate',
       },
     ],
   },
@@ -782,6 +812,18 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         component: 'RadioShowcaseComponent',
         name: 'Radio Showcase',
       },
+      {
+        path: 'radio-statuses.component',
+        link: '/radio/radio-statuses.component',
+        component: 'RadioStatusesComponent',
+        name: 'Radio Statuses',
+      },
+      {
+        path: 'radio-disabled-group.component',
+        link: '/radio/radio-disabled-group.component',
+        component: 'RadioDisabledGroupComponent',
+        name: 'Radio Disabled Group',
+      },
     ],
   },
   {
@@ -865,10 +907,10 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         name: 'Select Multiple',
       },
       {
-        path: 'select-outline.component',
-        link: '/select/select-outline.component',
-        component: 'SelectOutlineComponent',
-        name: 'Select Outline',
+        path: 'select-filled.component',
+        link: '/select/select-filled.component',
+        component: 'SelectFilledComponent',
+        name: 'Select Filled',
       },
       {
         path: 'select-placeholder.component',
@@ -899,6 +941,18 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/select/select-status.component',
         component: 'SelectStatusComponent',
         name: 'Select Status',
+      },
+      {
+        path: 'select-interactive.component',
+        link: '/select/select-interactive.component',
+        component: 'SelectInteractiveComponent',
+        name: 'Select Interactive',
+      },
+      {
+        path: 'select-test.component',
+        link: '/select/select-test.component',
+        component: 'SelectTestComponent',
+        name: 'Select Test',
       },
     ],
   },
@@ -1079,6 +1133,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         name: 'Toastr Prevent Duplicates',
       },
       {
+        path: 'toastr-prevent-duplicates-behaviour.component',
+        link: '/toastr/toastr-prevent-duplicates-behaviour.component',
+        component: 'ToastrPreventDuplicatesBehaviourComponent',
+        name: 'Toastr Prevent Duplicates Behaviour',
+      },
+      {
         path: 'toastr-showcase.component',
         link: '/toastr/toastr-showcase.component',
         component: 'ToastrShowcaseComponent',
@@ -1089,6 +1149,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/toastr/toastr-statuses.component',
         component: 'ToastrStatusesComponent',
         name: 'Toastr Statuses',
+      },
+      {
+        path: 'toastr-limit.component',
+        link: '/toastr/toastr-limit.component',
+        component: 'ToastrLimitComponent',
+        name: 'Toastr Limit',
       },
     ],
   },
@@ -1148,6 +1214,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         component: 'UserHideCaptionsComponent',
         name: 'User Hide Captions',
       },
+      {
+        path: 'user-shape.component',
+        link: '/user/user-shape.component',
+        component: 'NbUserShapeComponent',
+        name: 'Nb User Shape',
+      },
     ],
   },
   {
@@ -1174,59 +1246,6 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
     ],
   },
   {
-    path: 'auth',
-    children: [
-      {
-        path: 'login',
-        link: '/auth/login',
-        component: 'NbLoginComponent',
-        name: 'Nb Login',
-      },
-      {
-        path: 'register',
-        link: '/auth/register',
-        component: 'NbRegisterComponent',
-        name: 'Nb Register',
-      },
-      {
-        path: 'logout',
-        link: '/auth/logout',
-        component: 'NbLogoutComponent',
-        name: 'Nb Logout',
-      },
-      {
-        path: 'request-password',
-        link: '/auth/request-password',
-        component: 'NbRequestPasswordComponent',
-        name: 'Nb Request Password',
-      },
-      {
-        path: 'reset-password',
-        link: '/auth/reset-password',
-        component: 'NbResetPasswordComponent',
-        name: 'Nb Reset Password',
-      },
-      {
-        path: 'acl/acl-test.component',
-        link: '/auth/acl/acl-test.component',
-        component: 'AclTestComponent',
-        name: 'Acl Test',
-      },
-      {
-        path: 'auth-guard.service',
-        link: '/auth/auth-guard.service',
-        component: 'AuthPlaygroundComponent',
-        name: 'Auth Playground',
-      },
-      {
-        path: 'api-calls.component',
-        link: '/auth/api-calls.component',
-        component: 'PlaygroundApiCallsComponent',
-        name: 'Playground Api Calls',
-      },
-    ],
-  },
-  {
     path: 'oauth2',
     children: [
       {
@@ -1241,29 +1260,113 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
     path: 'oauth2-password',
   },
   {
-    path: 'smart-home',
+    path: 'tree-grid',
     children: [
       {
-        path: 'auth',
-        children: [
-          {
-            path: 'login',
-            link: '/smart-home/auth/login',
-            component: 'LoginComponent',
-            name: 'Login',
-          },
-        ],
+        path: 'tree-grid-showcase.component',
+        link: '/tree-grid/tree-grid-showcase.component',
+        component: 'TreeGridShowcaseComponent',
+        name: 'Tree Grid Showcase',
+      },
+      {
+        path: 'tree-grid-sortable.component',
+        link: '/tree-grid/tree-grid-sortable.component',
+        component: 'TreeGridSortableComponent',
+        name: 'Tree Grid Sortable',
+      },
+      {
+        path: 'tree-grid-filterable.component',
+        link: '/tree-grid/tree-grid-filterable.component',
+        component: 'TreeGridFilterableComponent',
+        name: 'Tree Grid Filterable',
+      },
+      {
+        path: 'tree-grid-basic.component',
+        link: '/tree-grid/tree-grid-basic.component',
+        component: 'TreeGridBasicComponent',
+        name: 'Tree Grid Basic',
+      },
+      {
+        path: 'tree-grid-responsive.component',
+        link: '/tree-grid/tree-grid-responsive.component',
+        component: 'TreeGridResponsiveComponent',
+        name: 'Tree Grid Responsive',
+      },
+      {
+        path: 'tree-grid-custom-icons.component',
+        link: '/tree-grid/tree-grid-custom-icons.component',
+        component: 'TreeGridCustomIconsComponent',
+        name: 'Tree Grid Custom Icons',
+      },
+      {
+        path: 'tree-grid-disable-click-toggle.component',
+        link: '/tree-grid/tree-grid-disable-click-toggle.component',
+        component: 'TreeGridDisableClickToggleComponent',
+        name: 'Tree Grid Disable Click Toggle',
+      },
+      {
+        path: 'tree-grid-custom-node-structure.component',
+        link: '/tree-grid/tree-grid-custom-node-structure.component',
+        component: 'TreeGridCustomNodeStructureComponent',
+        name: 'Tree Grid Custom Node Structure',
       },
     ],
   },
   {
-    path: 'bootstrap',
+    path: 'icon',
     children: [
       {
-        path: 'bootstrap-test.component',
-        link: '/bootstrap/bootstrap-test.component',
-        component: 'BootstrapTestComponent',
-        name: 'Bootstrap Test',
+        path: 'icon-showcase.component',
+        link: '/icon/icon-showcase.component',
+        component: 'IconShowcaseComponent',
+        name: 'Icon Showcase',
+      },
+      {
+        path: 'icon-colors.component',
+        link: '/icon/icon-colors.component',
+        component: 'IconColorsComponent',
+        name: 'Icon Colors',
+      },
+    ],
+  },
+  {
+    path: 'toggle',
+    children: [
+      {
+        path: 'toggle-disabled.component',
+        link: '/toggle/toggle-disabled.component',
+        component: 'ToggleDisabledComponent',
+        name: 'Toggle Disabled',
+      },
+      {
+        path: 'toggle-showcase.component',
+        link: '/toggle/toggle-showcase.component',
+        component: 'ToggleShowcaseComponent',
+        name: 'Toggle Showcase',
+      },
+      {
+        path: 'toggle-status.component',
+        link: '/toggle/toggle-status.component',
+        component: 'ToggleStatusComponent',
+        name: 'Toggle Status',
+      },
+      {
+        path: 'toggle-test.component',
+        link: '/toggle/toggle-test.component',
+        component: 'ToggleTestComponent',
+        name: 'Toggle Test',
+      },
+      {
+        path: 'toggle-label-position.component',
+        link: '/toggle/toggle-label-position.component',
+        component: 'ToggleLabelPositionComponent',
+        name: 'Toggle Label Position',
+      },
+      {
+        path: 'toggle-form.component',
+        link: '/toggle/toggle-form.component',
+        component: 'ToggleFormComponent',
+        name: 'Toggle Form',
       },
     ],
   },
@@ -1299,6 +1402,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/context-menu/context-menu-noop.component',
         component: 'ContextMenuNoopComponent',
         name: 'Context Menu Noop',
+      },
+      {
+        path: 'context-menu-right-click.component',
+        link: '/context-menu/context-menu-right-click.component',
+        component: 'ContextMenuRightClickComponent',
+        name: 'Context Menu Right Click',
       },
     ],
   },
@@ -1410,6 +1519,12 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/search/search-test.component',
         component: 'SearchTestComponent',
         name: 'Search Test',
+      },
+      {
+        path: 'search-with-input-event.component',
+        link: '/search/search-with-input-event.component',
+        component: 'SearchWithInputEventComponent',
+        name: 'Search With Input Event',
       },
     ],
   },
@@ -1568,6 +1683,86 @@ export const PLAYGROUND_COMPONENTS: ComponentLink[] = [
         link: '/azure/callback',
         component: 'AzureCallbackComponent',
         name: 'Azure Callback',
+      },
+    ],
+  },
+  {
+    path: 'auth',
+    children: [
+      {
+        path: 'login',
+        link: '/auth/login',
+        component: 'NbLoginComponent',
+        name: 'Nb Login',
+      },
+      {
+        path: 'register',
+        link: '/auth/register',
+        component: 'NbRegisterComponent',
+        name: 'Nb Register',
+      },
+      {
+        path: 'logout',
+        link: '/auth/logout',
+        component: 'NbLogoutComponent',
+        name: 'Nb Logout',
+      },
+      {
+        path: 'request-password',
+        link: '/auth/request-password',
+        component: 'NbRequestPasswordComponent',
+        name: 'Nb Request Password',
+      },
+      {
+        path: 'reset-password',
+        link: '/auth/reset-password',
+        component: 'NbResetPasswordComponent',
+        name: 'Nb Reset Password',
+      },
+      {
+        path: 'acl/acl-test.component',
+        link: '/auth/acl/acl-test.component',
+        component: 'AclTestComponent',
+        name: 'Acl Test',
+      },
+      {
+        path: 'auth-guard.service',
+        link: '/auth/auth-guard.service',
+        component: 'AuthPlaygroundComponent',
+        name: 'Auth Playground',
+      },
+      {
+        path: 'api-calls.component',
+        link: '/auth/api-calls.component',
+        component: 'PlaygroundApiCallsComponent',
+        name: 'Playground Api Calls',
+      },
+    ],
+  },
+  {
+    path: 'smart-home',
+    children: [
+      {
+        path: 'auth',
+        children: [
+          {
+            path: 'login',
+            link: '/smart-home/auth/login',
+            component: 'LoginComponent',
+            name: 'Login',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: 'bootstrap',
+    children: [
+      {
+        path: 'bootstrap-test.component',
+        link: '/bootstrap/bootstrap-test.component',
+        component: 'BootstrapTestComponent',
+        name: 'Bootstrap Test',
       },
     ],
   },

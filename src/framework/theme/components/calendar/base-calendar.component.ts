@@ -6,8 +6,10 @@
 
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Type } from '@angular/core';
 
-import { NbDateService, NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-kit';
-
+import { YEARS_IN_VIEW } from '../calendar-kit/components/calendar-year-picker/calendar-year-picker.component';
+import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-kit/model';
+import { NbDateService } from '../calendar-kit/services/date.service';
+import { convertToBoolProperty } from '../helpers';
 
 /**
  * The basis for calendar and range calendar components.
@@ -80,6 +82,25 @@ export class NbBaseCalendarComponent<D, T> implements OnInit {
   @Input() date: T;
 
   /**
+   * Determines should we show week numbers column.
+   * False by default.
+   * */
+  @Input()
+  @HostBinding('class.has-week-number')
+  get showWeekNumber(): boolean {
+    return this._showWeekNumber;
+  }
+  set showWeekNumber(value: boolean) {
+    this._showWeekNumber = convertToBoolProperty(value);
+  }
+  protected _showWeekNumber = false;
+
+  /**
+   * Sets symbol used as a header for week numbers column
+   * */
+  @Input() weekNumberSymbol: string;
+
+  /**
    * Emits date when selected.
    * */
   @Output() dateChange: EventEmitter<T> = new EventEmitter();
@@ -139,6 +160,6 @@ export class NbBaseCalendarComponent<D, T> implements OnInit {
   }
 
   private changeVisibleYear(direction: number) {
-    this.visibleDate = this.dateService.addYear(this.visibleDate, direction * 20);
+    this.visibleDate = this.dateService.addYear(this.visibleDate, direction * YEARS_IN_VIEW);
   }
 }

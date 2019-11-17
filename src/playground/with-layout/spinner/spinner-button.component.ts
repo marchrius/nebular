@@ -9,47 +9,26 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'nb-app-spinner-button',
   template: `
-     <nb-card accent="primary" size="small">
-      <nb-card-body>
-        <div class="d-flex align-items-start">
-          <button nbButton status="success" size="large" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="success" nbSpinnerSize="large" nbSpinnerMessage="">
+     <nb-card>
+      <nb-card-body class="example-items-rows">
+          <button [nbSpinner]="loading" nbSpinnerStatus="success" nbButton (click)="toggleLoadingAnimation()">
             Download
           </button>
 
-          <button nbButton status="primary" size="large" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="primary" nbSpinnerSize="large" nbSpinnerMessage="">
+          <button [nbSpinner]="loading" nbSpinnerStatus="warning" nbButton (click)="toggleLoadingAnimation()">
             Download
           </button>
 
-          <button nbButton status="warning" size="large" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="warning" nbSpinnerSize="large" nbSpinnerMessage="">
+          <button [nbSpinner]="loading" nbSpinnerStatus="danger" nbButton (click)="toggleLoadingAnimation()">
             Download
           </button>
 
-          <button nbButton status="danger" size="medium" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="danger" nbSpinnerMessage="">
+          <button [nbSpinner]="loading" nbSpinnerStatus="info" nbButton (click)="toggleLoadingAnimation()">
             Download
           </button>
-
-          <button nbButton status="info" size="medium" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="small" nbSpinnerMessage="">
-            Download
-          </button>
-
-          <button nbButton status="info" size="medium" (click)="toggleLoadingAnimation()"
-                  [nbSpinner]="loading" nbSpinnerStatus="info" nbSpinnerSize="xsmall" nbSpinnerMessage="">
-            Download
-          </button>
-        </div>
       </nb-card-body>
     </nb-card>
   `,
-  styles: [`
-    button {
-      margin: 1rem;
-    }
-  `],
 })
 export class SpinnerButtonComponent {
 

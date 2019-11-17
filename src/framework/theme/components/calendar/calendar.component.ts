@@ -6,7 +6,8 @@
 
 import { Component, EventEmitter, Input, Output, Type } from '@angular/core';
 
-import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-kit';
+import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-kit/model';
+import { convertToBoolProperty } from '../helpers';
 
 
 /**
@@ -26,7 +27,7 @@ import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-
  * ```ts
  * @NgModule({
  *   imports: [
- *   	// ...
+ *     // ...
  *     NbCalendarModule,
  *   ],
  * })
@@ -68,6 +69,9 @@ import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-
  * which disables weekdays.
  * @stacked-example(Filter, calendar/calendar-filter.component)
  *
+ * Week numbers column could be enabled via `showWeekNumber` binding:
+ * @stacked-example(Week number, calendar/calendar-week-number.component)
+ *
  * If you need create custom cells you can easily provide custom components for
  * calendar. For examples if you want to show any average price under each date you can
  * just provide custom `dayCellComponent`. Custom cells for month and year can be provided
@@ -76,43 +80,81 @@ import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-
  *
  * @styles
  *
- * calendar-width
- * calendar-body-height
- * calendar-header-title-font-size
- * calendar-header-title-font-weight
- * calendar-header-sub-title-font-size
- * calendar-header-sub-title-font-weight
- * calendar-navigation-button-width
- * calendar-selected-item-bg
- * calendar-hover-item-bg
- * calendar-today-item-bg
- * calendar-active-item-bg
- * calendar-fg
- * calendar-selected-fg
- * calendar-day-cell-width
- * calendar-day-cell-height
- * calendar-month-cell-width
- * calendar-month-cell-height
- * calendar-year-cell-width
- * calendar-year-cell-height
- * calendar-inactive-opacity
- * calendar-disabled-opacity
- * calendar-border-radius
- * calendar-weekday-width
- * calendar-weekday-height
- * calendar-weekday-font-size
- * calendar-weekday-font-weight
- * calendar-weekday-fg
- * calendar-weekday-holiday-fg
- * calendar-range-bg-in-range
- * calendar-large-width
- * calendar-large-body-height
- * calendar-day-cell-large-width
- * calendar-day-cell-large-height
- * calendar-month-cell-large-width
- * calendar-month-cell-large-height
- * calendar-year-cell-large-width
- * calendar-year-cell-large-height
+ * calendar-width:
+ * calendar-body-height:
+ * calendar-border-radius:
+ * calendar-text-color:
+ * calendar-text-font-family:
+ * calendar-text-font-size:
+ * calendar-text-font-weight:
+ * calendar-text-line-height:
+ * calendar-header-text-color:
+ * calendar-header-text-font-family:
+ * calendar-header-title-text-font-size:
+ * calendar-header-title-text-font-weight:
+ * calendar-header-title-text-line-height:
+ * calendar-header-sub-title-text-font-size:
+ * calendar-header-sub-title-text-font-weight:
+ * calendar-header-sub-title-text-line-height:
+ * calendar-navigation-button-width:
+ * calendar-cell-inactive-text-color:
+ * calendar-cell-in-range-background-color:
+ * calendar-cell-disabled-background-color:
+ * calendar-cell-disabled-text-color:
+ * calendar-cell-selected-background-color:
+ * calendar-cell-selected-text-color:
+ * calendar-cell-selected-text-font-size:
+ * calendar-cell-selected-text-font-weight:
+ * calendar-cell-selected-text-line-height:
+ * calendar-cell-hover-background-color:
+ * calendar-cell-hover-text-color:
+ * calendar-cell-hover-text-font-size:
+ * calendar-cell-hover-text-font-weight:
+ * calendar-cell-hover-text-line-height:
+ * calendar-cell-active-background-color:
+ * calendar-cell-active-text-color:
+ * calendar-cell-active-text-font-size:
+ * calendar-cell-active-text-font-weight:
+ * calendar-cell-active-text-line-height:
+ * calendar-cell-today-background-color:
+ * calendar-cell-today-text-color:
+ * calendar-cell-today-text-font-size:
+ * calendar-cell-today-text-font-weight:
+ * calendar-cell-today-text-line-height:
+ * calendar-day-cell-width:
+ * calendar-day-cell-height:
+ * calendar-month-cell-width:
+ * calendar-month-cell-height:
+ * calendar-year-cell-width:
+ * calendar-year-cell-height:
+ * calendar-weekday-background:
+ * calendar-weekday-divider-color:
+ * calendar-weekday-text-color:
+ * calendar-weekday-text-font-size:
+ * calendar-weekday-text-font-weight:
+ * calendar-weekday-text-line-height:
+ * calendar-weekday-holiday-text-color:
+ * calendar-weekday-height:
+ * calendar-weekday-width:
+ * calendar-weeknumber-background:
+ * calendar-weeknumber-divider-color:
+ * calendar-weeknumber-divider-width:
+ * calendar-weeknumber-text-color:
+ * calendar-weeknumber-text-font-size:
+ * calendar-weeknumber-text-font-weight:
+ * calendar-weeknumber-text-line-height:
+ * calendar-weeknumber-height:
+ * calendar-weeknumber-width:
+ * calendar-large-width:
+ * calendar-large-body-height:
+ * calendar-day-cell-large-width:
+ * calendar-day-cell-large-height:
+ * calendar-weekday-large-height:
+ * calendar-weekday-large-width:
+ * calendar-month-cell-large-width:
+ * calendar-month-cell-large-height:
+ * calendar-year-cell-large-width:
+ * calendar-year-cell-large-height:
  * */
 @Component({
   selector: 'nb-calendar',
@@ -130,6 +172,8 @@ import { NbCalendarCell, NbCalendarSize, NbCalendarViewMode } from '../calendar-
       [size]="size"
       [visibleDate]="visibleDate"
       [showHeader]="showHeader"
+      [showWeekNumber]="showWeekNumber"
+      [weekNumberSymbol]="weekNumberSymbol"
       (dateChange)="dateChange.emit($event)"
     ></nb-base-calendar>
   `,
@@ -194,6 +238,24 @@ export class NbCalendarComponent<D> {
    * Date which will be rendered as selected.
    * */
   @Input() date: D;
+
+  /**
+   * Determines should we show week numbers column.
+   * False by default.
+   * */
+  @Input()
+  get showWeekNumber(): boolean {
+    return this._showWeekNumber;
+  }
+  set showWeekNumber(value: boolean) {
+    this._showWeekNumber = convertToBoolProperty(value);
+  }
+  protected _showWeekNumber: boolean = false;
+
+  /**
+   * Sets symbol used as a header for week numbers column
+   * */
+  @Input() weekNumberSymbol: string = '#';
 
   /**
    * Emits date when selected.

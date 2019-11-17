@@ -12,13 +12,12 @@ import {
   Type,
   ViewChild,
 } from '@angular/core';
+import { NbComponentPortal, NbTemplatePortal } from '../cdk/overlay/mapping';
 import {
-  NbComponentPortal,
   NbOverlayContainerComponent,
   NbPositionedContainer,
   NbRenderableContainer,
-  NbTemplatePortal,
-} from '../cdk';
+} from '../cdk/overlay/overlay-container';
 
 
 /**
@@ -27,10 +26,18 @@ import {
  *
  * @styles
  *
- * popover-fg
- * popover-bg
- * popover-border
- * popover-shadow
+ * popover-text-color:
+ * popover-text-font-family:
+ * popover-text-font-size:
+ * popover-text-font-weight:
+ * popover-text-line-height:
+ * popover-background-color:
+ * popover-border-width:
+ * popover-border-color:
+ * popover-border-radius:
+ * popover-shadow:
+ * popover-arrow-size:
+ * popover-padding:
  * */
 @Component({
   selector: 'nb-popover',
@@ -41,7 +48,7 @@ import {
   `,
 })
 export class NbPopoverComponent extends NbPositionedContainer implements NbRenderableContainer {
-  @ViewChild(NbOverlayContainerComponent) overlayContainer: NbOverlayContainerComponent;
+  @ViewChild(NbOverlayContainerComponent, { static: false }) overlayContainer: NbOverlayContainerComponent;
 
   @Input() content: any;
   @Input() context: Object;
@@ -73,8 +80,7 @@ export class NbPopoverComponent extends NbPositionedContainer implements NbRende
 
   protected attachComponent() {
     const portal = new NbComponentPortal(this.content, null, null, this.cfr);
-    const ref = this.overlayContainer.attachComponentPortal(portal);
-    Object.assign(ref.instance, this.context);
+    const ref = this.overlayContainer.attachComponentPortal(portal, this.context);
     ref.changeDetectorRef.detectChanges();
   }
 

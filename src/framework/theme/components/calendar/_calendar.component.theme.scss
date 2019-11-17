@@ -7,6 +7,10 @@
 @mixin nb-calendar-theme() {
 
   nb-base-calendar {
+    nb-card {
+      overflow: hidden;
+    }
+
     &.medium nb-card {
       width: nb-theme(calendar-width);
 
@@ -23,13 +27,24 @@
       }
     }
 
+    &.has-week-number.medium nb-card {
+      width: calc(#{nb-theme(calendar-width)} + #{nb-theme(calendar-day-cell-width)} + 1px);
+    }
+
+    &.has-week-number.large nb-card {
+      width: calc(#{nb-theme(calendar-large-width)} + #{nb-theme(calendar-day-cell-width)} + 1px);
+    }
+
     nb-card {
+      border: none;
       margin: 0;
     }
 
     nb-card-body {
+      padding: 0;
+
       & > nb-calendar-pageable-navigation, & > nb-calendar-navigation {
-        padding: 0 1rem 1.5rem;
+        padding: 1rem 0;
       }
     }
   }
@@ -43,7 +58,7 @@
     }
 
     &.in-range {
-      background: nb-theme(calendar-range-bg-in-range);
+      background: nb-theme(calendar-cell-in-range-background-color);
 
       &:not(.today, :hover) {
         border-radius: 0;
@@ -52,7 +67,7 @@
 
     &.start, &.end {
       @extend .selected;
-      background: nb-theme(calendar-range-bg-in-range);
+      background: nb-theme(calendar-cell-in-range-background-color);
     }
 
     &.start {

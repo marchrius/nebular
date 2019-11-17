@@ -1,7 +1,9 @@
 import { Component, NgModule } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import { NbOverlayContainerAdapter, NbOverlayService, NbViewportRulerAdapter } from '../cdk';
+import { NbOverlayContainerAdapter } from '../cdk/adapter/overlay-container-adapter';
+import { NbViewportRulerAdapter } from '../cdk/adapter/viewport-ruler-adapter';
+import { NbOverlayService } from '../cdk/overlay/overlay-service';
 import { NbDialogService } from './dialog.service';
 import { NbDialogModule } from './dialog.module';
 import { NbThemeModule } from '../../theme.module';
@@ -74,6 +76,11 @@ describe('dialog-service', () => {
   it('should assign backdropClass if provided', () => {
     dialog.open(NbTestDialogComponent, { backdropClass: 'nb-overlay-test-backdrop-class' });
     expect(overlayContainer.querySelector('.nb-overlay-test-backdrop-class')).toBeTruthy();
+  });
+
+  it('should assign dialogClass if provided', () => {
+    dialog.open(NbTestDialogComponent, { dialogClass: 'nb-overlay-test-dialog-class' });
+    expect(overlayContainer.querySelector('.nb-overlay-test-dialog-class')).toBeTruthy();
   });
 
 

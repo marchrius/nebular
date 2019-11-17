@@ -9,7 +9,8 @@ import { Location } from '@angular/common';
 import { Params } from '@angular/router';
 import { Observable, BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { isUrlPathContain, isUrlPathEqual } from './url-matching-helpers';
+import { isFragmentContain, isFragmentEqual, isUrlPathContain, isUrlPathEqual } from './url-matching-helpers';
+import { NbIconConfig } from '../icon/icon.component';
 
 export interface NbMenuBag { tag: string; item: NbMenuItem }
 
@@ -49,10 +50,10 @@ export class NbMenuItem {
    */
   url?: string;
   /**
-   * Icon class name
-   * @type {string}
+   * Icon class name or icon config object
+   * @type {string | NbIconConfig}
    */
-  icon?: string;
+  icon?: string | NbIconConfig;
   /**
    * Expanded by default
    * @type {boolean}
@@ -77,7 +78,7 @@ export class NbMenuItem {
    * Item is selected when partly or fully equal to the current url
    * @type {string}
    */
-  pathMatch?: string = 'full';
+  pathMatch?: 'full' | 'prefix' = 'full';
   /**
    * Where this is a home item
    * @type {boolean}
@@ -376,8 +377,18 @@ export class NbMenuInternalService {
 
   private isSelectedInUrl(item: NbMenuItem): boolean {
     const exact: boolean = item.pathMatch === 'full';
-    return exact
-      ? isUrlPathEqual(this.location.path(), item.link)
-      : isUrlPathContain(this.location.path(), item.link);
+    const link: string = item.link;
+
+    const isSelectedInPath = exact
+      ? isUrlPathEqual(this.location.path(), link)
+      : isUrlPathContain(this.location.path(), link);
+
+    if (isSelectedInPath && item.fragment != null) {
+      return exact
+        ? isFragmentEqual(this.location.path(true), item.fragment)
+        : isFragmentContain(this.location.path(true), item.fragment);
+    }
+
+    return isSelectedInPath;
   }
 }

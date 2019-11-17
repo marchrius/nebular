@@ -1,10 +1,7 @@
 {
   "name": "@nebular/auth",
-  "version": "3.2.1",
+  "version": "4.5.0",
   "description": "@nebular/auth",
-  "main": "./bundles/auth.umd.js",
-  "module": "./index.js",
-  "typings": "./index.d.ts",
   "author": "akveo",
   "license": "MIT",
   "repository": {
@@ -27,12 +24,12 @@
     "nebular"
   ],
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/router": "^7.0.0",
-    "@angular/forms": "^7.0.0",
-    "@angular/http": "^7.0.0",
-    "@nebular/theme": "3.2.1",
-    "rxjs": "^6.3.0"
-  }
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/router": "^8.0.0",
+    "@angular/forms": "^8.0.0",
+    "@nebular/theme": "4.5.0",
+    "rxjs": "^6.5.1"
+  },
+  "sideEffects": false
 }

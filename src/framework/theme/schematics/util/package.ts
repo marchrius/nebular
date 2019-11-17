@@ -34,6 +34,20 @@ export function getNebularPeerDependencyVersionFromPackageJson(packageName: stri
 }
 
 /**
+ * Eva Icons version
+ * */
+export function getEvaIconsVersion(): string {
+  const packageJson: PackageJson = getNebularEvaIconsPackageJson();
+  const packageName = 'eva-icons';
+
+  if (noInfoAboutPeerDependency(packageJson, packageName)) {
+    throwNoPackageInfoInPackageJson(packageName);
+  }
+
+  return packageJson.peerDependencies[packageName];
+}
+
+/**
  * Gets the version of the specified dependency by looking at the package.json in the specified tree
  * */
 export function getDependencyVersionFromPackageJson(tree: Tree, packageName: string): string {
@@ -50,7 +64,7 @@ export function getDependencyVersionFromPackageJson(tree: Tree, packageName: str
   return packageJson.dependencies[packageName];
 }
 
-export function addDependencyToPackageJson(tree: Tree, packageName: string, packageVersion: string) {
+export function addDependencyToPackageJson(tree: Tree, packageName: string, packageVersion: string, force = false) {
   if (!tree.exists(packageJsonName)) {
     throwNoPackageJsonError();
   }
@@ -61,12 +75,29 @@ export function addDependencyToPackageJson(tree: Tree, packageName: string, pack
     packageJson.dependencies = {};
   }
 
-  if (!packageJson.dependencies[packageName]) {
+  if (!packageJson.dependencies[packageName] || force) {
     packageJson.dependencies[packageName] = packageVersion;
     packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
   }
 
   writeJSON(tree, packageJsonName, packageJson);
+}
+
+/**
+ * Gets the version of the specified dev dependency by looking at the package.json in the specified tree
+ * */
+export function getDevDependencyVersionFromPackageJson(tree: Tree, packageName: string): string {
+  if (!tree.exists(packageJsonName)) {
+    throwNoPackageJsonError();
+  }
+
+  const packageJson: PackageJson = readJSON(tree, packageJsonName);
+
+  if (noInfoAboutDevDependency(packageJson, packageName)) {
+    throwNoPackageInfoInPackageJson(packageName);
+  }
+
+  return packageJson.devDependencies[packageName];
 }
 
 export function addDevDependencyToPackageJson(tree: Tree, packageName: string, packageVersion: string) {
@@ -104,6 +135,13 @@ function noInfoAboutDependency(packageJson: PackageJson, packageName: string): b
 }
 
 /**
+ * Validates packageJson has devDependencies, also as specified devDependency not exists.
+ * */
+function noInfoAboutDevDependency(packageJson: PackageJson, packageName: string): boolean {
+  return !devDependencyAlreadyExists(packageJson, packageName);
+}
+
+/**
  * Validates packageJson has peerDependencies, also as specified peerDependency not exists.
  * */
 function noInfoAboutPeerDependency(packageJson: PackageJson, packageName: string): boolean {
@@ -115,6 +153,13 @@ function noInfoAboutPeerDependency(packageJson: PackageJson, packageName: string
  * */
 function dependencyAlreadyExists(packageJson: PackageJson, packageName: string): boolean {
   return !!(packageJson.dependencies && packageJson.dependencies[packageName]);
+}
+
+/**
+ * Validates packageJson has devDependencies, also as specified devDependency exists.
+ * */
+function devDependencyAlreadyExists(packageJson: PackageJson, packageName: string): boolean {
+  return !!(packageJson.devDependencies && packageJson.devDependencies[packageName]);
 }
 
 /**
@@ -135,3 +180,9 @@ function sortObjectByKeys(obj: object) {
 function getNebularPackageJson(): PackageJson {
   return require('../../package.json');
 }
+
+function getNebularEvaIconsPackageJson(): PackageJson {
+  return require('../../../eva-icons/package.json');
+}
+
+

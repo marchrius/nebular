@@ -16,7 +16,13 @@ import {
   NbSidebarModule,
   NbCardModule,
   NbCheckboxModule,
+  NbIconModule,
+  NbButtonModule,
+  NbSelectModule,
+  NbInputModule,
 } from '@nebular/theme';
+
+import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import {
   NgdHeaderComponent,
@@ -30,7 +36,8 @@ import {
   NgdColorSwatchDirective,
   NgdDescriptionDirective,
   NgdSearchComponent,
-} from './components/';
+  NgdEvaComponent,
+} from './components';
 
 import {
   NgdHighlightService,
@@ -45,8 +52,8 @@ import {
   NgdPaginationService,
   NgdAnalytics,
   NgdMenuService,
+  NgdMetadataService,
 } from './services';
-
 
 @NgModule({
   imports: [
@@ -56,6 +63,11 @@ import {
     NbCardModule,
     NbMenuModule,
     NbTabsetModule,
+    NbIconModule,
+    NbButtonModule,
+    NbSelectModule,
+    NbInputModule,
+    NbEvaIconsModule,
     RouterModule,
   ],
   declarations: [
@@ -70,12 +82,14 @@ import {
     NgdColorSwatchDirective,
     NgdDescriptionDirective,
     NgdSearchComponent,
+    NgdEvaComponent,
   ],
   exports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    NbIconModule,
     NbLayoutModule,
     NbSidebarModule,
     NbCardModule,
@@ -92,6 +106,7 @@ import {
     NgdPageTabsComponent,
     NgdColorSwatchDirective,
     NgdDescriptionDirective,
+    NgdEvaComponent,
   ],
 })
 export class NgdThemeModule {
@@ -111,6 +126,7 @@ export class NgdThemeModule {
         NgdAnalytics,
         NgdMenuService,
         NgdVisibilityService,
+        NgdMetadataService,
       ],
     };
   }

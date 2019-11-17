@@ -26,3 +26,23 @@ export function getElementHeight(el) {
   return el.offsetHeight + marginTop + marginBottom;
 }
 
+export function firstChildNotComment(node: Node) {
+  const children = Array
+    .from(node.childNodes)
+    .filter((child: Node) => child.nodeType !== Node.COMMENT_NODE);
+  return children[0];
+}
+
+export function lastChildNotComment(node: Node) {
+  const children = Array
+    .from(node.childNodes)
+    .filter((child: Node) => child.nodeType !== Node.COMMENT_NODE);
+  return children[children.length - 1];
+}
+
+/*
+ * @breaking-change Remove @5.0.0
+ */
+export function emptyStatusWarning(source: string) {
+  console.warn(`${source}: Using empty string as a status is deprecated. Use \`basic\` instead.`);
+}

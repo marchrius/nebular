@@ -10,7 +10,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'index.md',
+            source: 'getting-started/what-is-nebular.md',
           },
         ],
       },
@@ -21,7 +21,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'start.md',
+            source: 'getting-started/where-to-start.md',
           },
         ],
       },
@@ -32,7 +32,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'professional-services.md',
+            source: 'getting-started/professional-services.md',
           },
         ],
       },
@@ -44,77 +44,34 @@ export const structure = [
     children: [
       {
         type: 'page',
+        name: 'Install Nebular',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'guides/install.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
         name: 'Install based on starter kit',
         children: [
           {
             type: 'block',
             block: 'markdown',
-            source: 'install-starter-kit.md',
+            source: 'guides/install-starter-kit.md',
           },
         ],
       },
       {
         type: 'page',
-        name: 'Add into existing project',
+        name: 'Create Nebular Page',
         children: [
           {
             type: 'block',
             block: 'markdown',
-            source: 'install-into-existing.md',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: 'Theme System',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'concept-theme-system.md',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: 'Enable Theme System',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'enabling-theme-system.md',
-          },
-        ],
-      },      {
-        type: 'page',
-        name: 'Change Theme',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'theme-change.md',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: 'Bootstrap Integration',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'bootstrap-integration.md',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: '3rd-party components',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'concept-3rd-party.md',
+            source: 'guides/create-page.md',
           },
         ],
       },
@@ -125,7 +82,18 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'backend-integration.md',
+            source: 'guides/backend-integration.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Register Icon Pack',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'guides/custom-icons.md',
           },
         ],
       },
@@ -136,7 +104,221 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'server-deployment.md',
+            source: 'guides/server-deployment.md',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'section',
+    name: 'Design System',
+    children: [
+      {
+        type: 'page',
+        name: 'Eva Design System Intro',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/intro.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Design System Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/theme.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Typography',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/typography.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Enable Customizable Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/enable-customizable-theme.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Use Theme Variables',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/use-theme-variables.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Create Custom Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/custom-theme.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Enable CSS Properties mode',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/css-properties.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Enable Multiple Runtime Themes',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/multiple-runtime-themes.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Changing Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'design-system/theme-change.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Default Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'theme',
+            name: 'Default',
+            source: 'default',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Dark Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'theme',
+            name: 'Dark',
+            source: 'dark',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Cosmic Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'theme',
+            name: 'Cosmic',
+            source: 'cosmic',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Corporate Theme',
+        children: [
+          {
+            type: 'block',
+            block: 'theme',
+            name: 'Corporate',
+            source: 'corporate',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'section',
+    name: 'Migration',
+    children: [
+      {
+        type: 'page',
+        name: 'General Instructions',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'migration/instructions.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: '3.5.0-4.0.0 Migration',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'migration/350-400.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: '2.0.0-rc.8-2.0.0-rc.9 Auth Migration',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'migration/200rc8-200rc9-auth.md',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'section',
+    name: 'Usability',
+    children: [
+      {
+        type: 'page',
+        name: 'Right-to-left (RTL)',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'usability/rtl.md',
+          },
+          {
+            type: 'block',
+            block: 'component',
+            source: 'NbLayoutDirectionService',
           },
         ],
       },
@@ -306,6 +488,14 @@ export const structure = [
       },
       {
         type: 'tabs',
+        name: 'Toggle',
+        icon: 'toggle.svg',
+        source: [
+          'NbToggleComponent',
+        ],
+      },
+      {
+        type: 'tabs',
         name: 'Radio',
         icon: 'radio.svg',
         source: [
@@ -422,10 +612,20 @@ export const structure = [
       },
       {
         type: 'tabs',
+        name: 'Icon',
+        icon: 'icon.svg',
+        source: [
+          'NbIconComponent',
+          'NbIconLibraries',
+        ],
+      },
+      {
+        type: 'tabs',
         name: 'Spinner',
         icon: 'spinner.svg',
         source: [
           'NbSpinnerDirective',
+          'NbSpinnerComponent',
         ],
       },
       {
@@ -480,6 +680,28 @@ export const structure = [
         icon: 'calendar.svg',
         source: [
           'NbCalendarKitModule',
+        ],
+      },
+      {
+        type: 'group',
+        name: 'Data Table',
+      },
+      {
+        type: 'tabs',
+        name: 'Tree Grid',
+        icon: 'tree-grid.svg',
+        source: [
+          'NbTreeGridComponent',
+          'NbTreeGridPresentationNode',
+          'NbTreeGridSortService',
+          'NbTreeGridFilterService',
+          'NbTreeGridColumnDefDirective',
+          'NbTreeGridRowDefDirective',
+          'NbTreeGridRowComponent',
+          'NbSortDirective',
+          'NbSortHeaderComponent',
+          'NbFilterInputDirective',
+          'NbTreeGridRowToggleDirective',
         ],
       },
     ],
@@ -557,48 +779,6 @@ export const structure = [
   },
   {
     type: 'section',
-    name: 'Themes',
-    children: [
-      {
-        type: 'page',
-        name: 'Default',
-        children: [
-          {
-            type: 'block',
-            block: 'theme',
-            name: 'Default',
-            source: 'default',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: 'Cosmic',
-        children: [
-          {
-            type: 'block',
-            block: 'theme',
-            name: 'Cosmic',
-            source: 'cosmic',
-          },
-        ],
-      },
-      {
-        type: 'page',
-        name: 'Corporate',
-        children: [
-          {
-            type: 'block',
-            block: 'theme',
-            name: 'Corporate',
-            source: 'corporate',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'section',
     name: 'Auth',
     children: [
       {
@@ -608,7 +788,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-intro.md',
+            source: 'auth/intro.md',
           },
         ],
       },
@@ -619,7 +799,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-install.md',
+            source: 'auth/install.md',
           },
         ],
       },
@@ -630,7 +810,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-strategy.md',
+            source: 'auth/strategy.md',
           },
         ],
       },
@@ -641,7 +821,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-ui.md',
+            source: 'auth/ui.md',
           },
         ],
       },
@@ -652,7 +832,18 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-custom-ui.md',
+            source: 'auth/custom-ui.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Redirect after Login',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'auth/redirect.md',
           },
         ],
       },
@@ -663,7 +854,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-token.md',
+            source: 'auth/token.md',
           },
         ],
       },
@@ -674,7 +865,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-guard.md',
+            source: 'auth/guard.md',
           },
         ],
       },
@@ -685,7 +876,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-oauth2.md',
+            source: 'auth/oauth2.md',
           },
         ],
       },
@@ -696,7 +887,18 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'auth-azure.md',
+            source: 'auth/azure.md',
+          },
+        ],
+      },
+      {
+        type: 'page',
+        name: 'Backend API endpoints',
+        children: [
+          {
+            type: 'block',
+            block: 'markdown',
+            source: 'auth/backend-api.md',
           },
         ],
       },
@@ -789,7 +991,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'security-intro.md',
+            source: 'security/intro.md',
           },
         ],
       },
@@ -800,7 +1002,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'security-install.md',
+            source: 'security/install.md',
           },
         ],
       },
@@ -811,7 +1013,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'security-acl-configuration.md',
+            source: 'security/acl-configuration.md',
           },
         ],
       },
@@ -822,7 +1024,7 @@ export const structure = [
           {
             type: 'block',
             block: 'markdown',
-            source: 'security-multiple-roles.md',
+            source: 'security/multiple-roles.md',
           },
         ],
       },
@@ -845,28 +1047,6 @@ export const structure = [
             type: 'block',
             block: 'component',
             source: 'NbAccessChecker',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'section',
-    name: 'Usability',
-    children: [
-      {
-        type: 'page',
-        name: 'Right-to-left (RTL)',
-        children: [
-          {
-            type: 'block',
-            block: 'markdown',
-            source: 'rtl.md',
-          },
-          {
-            type: 'block',
-            block: 'component',
-            source: 'NbLayoutDirectionService',
           },
         ],
       },

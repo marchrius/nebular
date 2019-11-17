@@ -9,6 +9,7 @@ import {
   Input,
   Type,
 } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 
 import { NbRenderableContainer } from '../overlay-container';
 import {
@@ -18,9 +19,10 @@ import {
   NbPositionBuilderService,
 } from '../overlay-position';
 import { NbDynamicOverlay } from './dynamic-overlay';
-import { NbOverlayContent } from '../overlay';
+import { NbOverlayContent } from '../overlay-service';
 import { NbDynamicOverlayChange, NbDynamicOverlayHandler } from './dynamic-overlay-handler';
 import { NbTrigger, NbTriggerStrategy, NbTriggerStrategyBuilderService } from '../overlay-trigger';
+import { NbOverlayConfig } from '@nebular/theme/components/cdk/overlay/mapping';
 
 @Component({ template: '' })
 export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
@@ -42,18 +44,21 @@ export class NbMockDynamicOverlay {
   _context: Object = {};
   _content: NbOverlayContent;
   _positionStrategy: NbAdjustableConnectedPositionStrategy;
+  _overlayConfig: NbOverlayConfig;
 
   constructor() {}
 
   create(componentType: Type<NbRenderableContainer>,
          content: NbOverlayContent,
          context: Object,
-         positionStrategy: NbAdjustableConnectedPositionStrategy) {
+         positionStrategy: NbAdjustableConnectedPositionStrategy,
+         overlayConfig: NbOverlayConfig) {
 
     this.setContext(context);
     this.setContent(content);
     this.setComponent(componentType);
     this.setPositionStrategy(positionStrategy);
+    this.setOverlayConfig(overlayConfig);
 
     return this;
   }
@@ -68,6 +73,10 @@ export class NbMockDynamicOverlay {
 
   setComponent(componentType: Type<NbRenderableContainer>) {
     this._componentType = componentType;
+  }
+
+  setOverlayConfig(overlayConfig: NbOverlayConfig) {
+    this._overlayConfig = overlayConfig;
   }
 
   setContentAndContext(content: NbOverlayContent, context: Object) {
@@ -146,6 +155,8 @@ export class MockTriggerStrategyBuilder {
   show$ = new Subject<any>();
   hide$ = new Subject<any>();
 
+  private destroyed$ = new Subject();
+
   trigger(trigger: NbTrigger): this {
     this._trigger = trigger;
     return this;
@@ -163,9 +174,10 @@ export class MockTriggerStrategyBuilder {
 
   build(): NbTriggerStrategy {
     return {
-      show$: this.show$,
-      hide$: this.hide$,
-    } as NbTriggerStrategy;
+      show$: this.show$.asObservable().pipe(takeUntil(this.destroyed$)),
+      hide$: this.hide$.asObservable().pipe(takeUntil(this.destroyed$)),
+      destroy: () => this.destroyed$.next(),
+    };
   }
 }
 
@@ -511,5 +523,16 @@ describe('dynamic-overlay-handler', () => {
     expect(positionBuilder._connectedTo).toBe(host2);
     expect(positionBuilder._position).toBe(NbPosition.LEFT);
     expect(positionBuilder._adjustment).toBe(NbAdjustment.HORIZONTAL);
+  });
+
+  it('should set and update overlay config', () => {
+    let overlayConfig: NbOverlayConfig = { panelClass: 'custom-class' };
+
+    let dynamic = configure().overlayConfig(overlayConfig).build();
+    expect(dynamic._overlayConfig).toEqual(jasmine.objectContaining(overlayConfig));
+
+    overlayConfig = { panelClass: 'other-custom-class' };
+    dynamic = configure().overlayConfig(overlayConfig).rebuild();
+    expect(dynamic._overlayConfig).toEqual(jasmine.objectContaining(overlayConfig));
   });
 });

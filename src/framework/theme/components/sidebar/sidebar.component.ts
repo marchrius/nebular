@@ -55,7 +55,7 @@ export class NbSidebarFooterComponent {
  * ```ts
  * @NgModule({
  *   imports: [
- *   	// ...
+ *     // ...
  *     NbSidebarModule.forRoot(),
  *   ],
  * })
@@ -65,7 +65,7 @@ export class NbSidebarFooterComponent {
  * ```ts
  * @NgModule({
  *   imports: [
- *   	// ...
+ *     // ...
  *     NbSidebarModule,
  *   ],
  * })
@@ -98,18 +98,23 @@ export class NbSidebarFooterComponent {
  *
  * @styles
  *
- * sidebar-font-size: Sidebar content font size
- * sidebar-line-height: Sidebar content line height
- * sidebar-fg: Foreground color
- * sidebar-bg: Background color
- * sidebar-height: Content height
- * sidebar-width: Expanded width
- * sidebar-width-compact: Compacted width
- * sidebar-padding: Sidebar content padding
- * sidebar-header-height: Sidebar header height
- * sidebar-footer-height: Sidebar footer height
- * sidebar-shadow: Sidebar container shadow
- *
+ * sidebar-background-color:
+ * sidebar-text-color:
+ * sidebar-text-font-family:
+ * sidebar-text-font-size:
+ * sidebar-text-font-weight:
+ * sidebar-text-line-height:
+ * sidebar-height:
+ * sidebar-width:
+ * sidebar-width-compact:
+ * sidebar-padding:
+ * sidebar-header-height:
+ * sidebar-footer-height:
+ * sidebar-shadow:
+ * sidebar-menu-item-highlight-color:
+ * sidebar-scrollbar-background-color:
+ * sidebar-scrollbar-color:
+ * sidebar-scrollbar-width:
  */
 @Component({
   selector: 'nb-sidebar',
@@ -319,6 +324,14 @@ export class NbSidebarComponent implements OnChanges, OnInit, OnDestroy {
           this.collapse();
         }
       });
+
+    this.sidebarService.onCompact()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((data: { tag: string }) => {
+        if (!this.tag || this.tag === data.tag) {
+          this.compact();
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -333,17 +346,10 @@ export class NbSidebarComponent implements OnChanges, OnInit, OnDestroy {
     const menu = this.element.nativeElement.querySelector('nb-menu');
 
     if (menu && menu.contains(event.target)) {
-      let link = event.target;
-      const linkChildren = ['span', 'i'];
+      const link = this.getMenuLink(event.target);
 
-      // if we clicked on span - get the link
-      if (linkChildren.includes(link.tagName.toLowerCase()) && link.parentNode) {
-        link = event.target.parentNode;
-      }
-
-      // we only expand if an item has children
       if (link && link.nextElementSibling && link.nextElementSibling.classList.contains('menu-items')) {
-        this.expand();
+        this.sidebarService.expand(this.tag);
       }
     }
   }
@@ -424,5 +430,17 @@ export class NbSidebarComponent implements OnChanges, OnInit, OnDestroy {
 
   protected responsiveEnabled(): boolean {
     return this.responsiveValue;
+  }
+
+  protected getMenuLink(element: HTMLElement): HTMLElement | undefined {
+    if (!element || element.tagName.toLowerCase() === 'nb-menu') {
+      return;
+    }
+
+    if (element.tagName.toLowerCase() === 'a') {
+      return element;
+    }
+
+    return this.getMenuLink(element.parentElement);
   }
 }

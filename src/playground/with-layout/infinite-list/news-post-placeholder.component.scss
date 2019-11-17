@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  width: 100%;
 }
 
 .title-placeholder {
@@ -20,6 +21,6 @@
 
 @include nb-install-component() {
   [class$='placeholder'] {
-    background: rgba(nb-theme(layout-bg), 0.6);
+    background: nb-theme(background-basic-color-4);
   }
 }
